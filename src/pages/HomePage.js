@@ -1,13 +1,12 @@
-import React from "react";
-import { FaHome } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import TodoService from "../services/TodoService";
+import { Col, Row, Button } from "reactstrap";
 
 const HomePage = () => {
+
   return (
     <>
-      <div>
-        <FaHome />
-        <h2>Home Page</h2>
-      </div>
+      
     </>
   );
 };
