@@ -1,9 +1,11 @@
 import axios from "axios";
 
-const BASE_URL = "https://jsonplaceholder.typicode.com/todos";
+const BASE_URL = "http://localhost:3000/todo";
 
-const getTodoAll = () => {
-  return axios.get(BASE_URL);
+const getTodo = () => {
+  return axios.get(BASE_URL).then((res => {
+    return res;
+  }));
 };
 
 const getUserById = (userId) => {
@@ -15,15 +17,17 @@ const TodoPost = (req) => {
 };
 
 const TodoDelete = (userId) => {
+  console.log("bu kullanıcı:",userId)
   return axios.delete(`${BASE_URL}/${userId}`);
 };
 
 const TodoUpdate = (req) => {
-  return axios.put(BASE_URL, req);
+  console.log("busranın id" , req)
+  return axios.put(BASE_URL + "/put", req);
 };
 
 let TodoService = {
-  getTodoAll,
+  getTodo,
   getUserById,
   TodoPost,
   TodoDelete,

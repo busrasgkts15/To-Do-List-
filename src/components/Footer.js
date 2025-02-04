@@ -9,12 +9,36 @@ import {
 } from "reactstrap";
 import { FaSquareInstagram } from "react-icons/fa6";
 import { FaSquareXTwitter } from "react-icons/fa6";
-
+import { FloatButton } from "antd";
+import { QuestionCircleOutlined } from "@ant-design/icons";
+import { useState } from "react";
 import { FaFacebookSquare } from "react-icons/fa";
+import { Modal } from "antd";
 
 const Footer = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  }
+
   return (
     <>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Modal title="Yardım" open={isModalOpen} onOk={handleOk} onCancel={handleOk}>
+          <p>Yeni görev eklemek için Todo sayfasını ziyaret ediniz</p>
+        </Modal>
+      </div>
       <footer
         className="fixed-bottom"
         style={{ backgroundColor: "Highlight", height: 100 }}
@@ -43,11 +67,13 @@ const Footer = () => {
               </div>
             </div>
           </div>
-          <div style={{margin: 20}}>
-            Detaylar İçin
-            <a href="/todo" style={{textDecoration: "none" ,color:"black"}}> Todo sayfasını ziyaret edin</a>
-          </div>
         </div>
+        <FloatButton
+          onClick={showModal}
+          icon={<QuestionCircleOutlined />}
+          type="primary"
+          style={{ insetInlineEnd: 24 }}
+        />
       </footer>
     </>
   );
