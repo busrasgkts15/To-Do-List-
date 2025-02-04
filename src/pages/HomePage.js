@@ -6,7 +6,7 @@ const HomePage = () => {
 
   return (
     <>
-      
+      <h2 style={{display: "flex" , alignItems: "center" , justifyContent : "center"}}>Ana Sayfaya Hoş Geldiniz</h2>
     </>
   );
 };
