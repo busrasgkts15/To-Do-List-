@@ -1,29 +1,25 @@
-import React from "react";
-import { useState } from "react";
-import { FaHome } from "react-icons/fa";
-import { Navbar, NavbarBrand, NavbarText } from "reactstrap";
+import React, { useState } from "react";
+import { Navbar, NavbarBrand, Nav, NavLink } from "reactstrap";
+import { FcApproval } from "react-icons/fc";
 
-const Header = () => {
-  const [modal, setModal] = useState(false);
-
-  const toggle = () => setModal(!modal);
-
+function Header() {
   return (
-    <>
-      <Navbar color="dark" dark>
-        <NavbarBrand href="/">
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div>
-              <FaHome></FaHome>
-            </div>
-            <div>
-              <NavbarText>To DO LİST</NavbarText>
-            </div>
-          </div>
-        </NavbarBrand>
+    <div>
+      <Navbar>
+        <Nav>
+          <FcApproval />
+
+          <NavbarBrand href="/">reactstrap</NavbarBrand>
+
+          <NavLink href="/todo">To do</NavLink>
+
+          <NavLink href="https://github.com/busrasgkts15">
+            GitHub
+          </NavLink>
+        </Nav>
       </Navbar>
-    </>
+    </div>
   );
-};
+}
 
 export default Header;
