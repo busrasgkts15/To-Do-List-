@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { RiDeleteBin5Line } from "react-icons/ri";
-import { FaRegEdit } from "react-icons/fa";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { FaEdit } from "react-icons/fa";
 import DynamicDataTable from "../components/DynamicDataTable";
 import DynamicModal from "../components/DynamicModal";
 import {
@@ -14,6 +14,8 @@ import {
   Alert,
 } from "reactstrap";
 import TodoService from "../services/TodoService";
+import { Table } from "antd";
+import Column from "antd/es/table/Column";
 
 const UsersPage = () => {
   const [visible, setVisible] = useState(false);
@@ -22,13 +24,20 @@ const UsersPage = () => {
   const [message, setMessage] = useState("");
   const [updateData, setUpdateData] = useState();
   const [isUpdate, setisUpdate] = useState(false);
+  const [isDelete, setisDelete] = useState(false);
+
+  
 
   useEffect(() => {
+    if (!isOpenModal) {
+      setUpdateData({});
+    }
     getTodoList();
-  }, []);
+  }, [setVisible, isOpenModal]);
 
   const getTodoList = () => {
-    TodoService.getTodoAll().then((res) => {
+    console.log("buradayım");
+    TodoService.getTodo().then((res) => {
       setList(res.data);
     });
   };
@@ -36,8 +45,8 @@ const UsersPage = () => {
   const deleteUserFunc = (id) => {
     TodoService.TodoDelete(id)
       .then((res) => {
-        getTodoList();
         setVisible(true);
+        getTodoList();
         setMessage("Silme Başarılı");
       })
       .catch((err) => {
@@ -47,7 +56,7 @@ const UsersPage = () => {
   };
 
   const visibler = () => {
-    getTodoList()
+    getTodoList();
     setVisible(false);
   };
 
@@ -55,15 +64,17 @@ const UsersPage = () => {
     setisOpenModal(true);
     // setUpdateData(data);
     // isUpdate(true)
-    // TodoService.TodoUpdate(data);
+    TodoService.TodoUpdate(data);
     // getTodoList();
   };
 
-  useEffect(() => {
-    if (!isOpenModal) {
-      setUpdateData({});
-    }
-  }, [isOpenModal]);
+  const color = ({message}) => {
+    if(message === "Silme Başarılı") {
+      return "success"
+    } else 
+     return "danger"
+    
+  }
 
   const columns = [
     {
@@ -73,8 +84,14 @@ const UsersPage = () => {
       sortable: true,
     },
     {
-      selector: (row) => row.id,
-      name: "Id",
+      selector: (row) => row.userName,
+      name: "Name",
+      width: "",
+      sortable: true,
+    },
+    {
+      selector: (row) => row.department,
+      name: "Department",
       width: "",
       sortable: true,
     },
@@ -84,23 +101,17 @@ const UsersPage = () => {
       width: "",
     },
     {
-      selector: (row) => row.completed,
-      name: "Completed",
-      width: "",
-      sortable: true,
-    },
-    {
-      name: "Aksiyon",
+      name: "Actions",
       width: "",
       cell: (d) => [
         <div>
-          <RiDeleteBin5Line
+          <RiDeleteBin6Line
             size={20}
             className="cursor-pointer"
             role="button"
             onClick={() => deleteUserFunc(d.id)}
           />
-          <FaRegEdit
+          <FaEdit
             size={20}
             className="ms-2 cursor-pointer"
             role="button"
@@ -119,15 +130,13 @@ const UsersPage = () => {
           md={12}
           sm={12}
           xs={12}
-          className="mt-3"
           style={{
             display: "flex",
             justifyContent: "center",
-            alignItems: "center",
           }}
         >
           <Card>
-            <Alert color="success" isOpen={visible} toggle={visibler}>
+            <Alert color={color({message})} isOpen={visible} toggle={visibler}>
               {message}
             </Alert>
             <CardHeader>
@@ -144,23 +153,47 @@ const UsersPage = () => {
                     size="sm"
                     onClick={() => setisOpenModal(true)}
                   >
-                    İş Ekle
+                    Görev Ekle
                   </Button>
                 </div>
               </div>
             </CardHeader>
             <CardBody
               className="p-0"
-              style={{ overflowY: "auto", maxHeight: "400px" }}
+              style={{ overflowY: "auto", maxHeight: "500px" }}
             >
-              <div className="mt-3">
-                <DynamicDataTable columns={columns} data={list} />
-              </div>
+              <Table dataSource={list}>
+        <Column title="User Id" dataIndex="userId" />
+        <Column title="Name" dataIndex="userName" />
+        <Column title="Department" dataIndex="department" />
+        <Column title="Title" dataIndex="title" />
+        <Column
+          title="Actions"
+          render={(_, record) => (
+            <>
+              <RiDeleteBin6Line
+                size={20}
+                className="cursor-pointer"
+                role="button"
+                onClick={() => deleteUserFunc(record.id)}
+              />
+              <FaEdit
+                size={20}
+                className="ms-2 cursor-pointer"
+                role="button"
+                // onClick={() => updateUserFunc(record)}
+              />
+            </>
+          )}
+        />
+      </Table>
+      ;
             </CardBody>
           </Card>
         </Col>
 
         <DynamicModal
+          data={list}
           classname={"left-sidebar"}
           isOpen={isOpenModal}
           setIsOpen={setisOpenModal}
