@@ -3,9 +3,9 @@ import axios from "axios";
 const BASE_URL = "http://localhost:3000/todo";
 
 const getTodo = () => {
-  return axios.get(BASE_URL).then((res => {
+  return axios.get(BASE_URL).then((res) => {
     return res;
-  }));
+  });
 };
 
 const getUserById = (userId) => {
@@ -13,16 +13,26 @@ const getUserById = (userId) => {
 };
 
 const TodoPost = (req) => {
-  return axios.post(`${BASE_URL}`, req);
+  console.log("buss" , req)
+  // return axios
+  //   .post(`${BASE_URL}`, {
+  //     userName: req.userName,
+  //     department: req.department,
+  //     title: req.title,
+  //   })
+  //   .then((response) => {
+  //     console.log("Gönderi eklendi:", response.data);
+  //   })
+  //   .catch((error) => {
+  //     console.error("Hata oluştu:", error);
+  //   });
 };
 
 const TodoDelete = (userId) => {
-  console.log("bu kullanıcı:",userId)
   return axios.delete(`${BASE_URL}/${userId}`);
 };
 
 const TodoUpdate = (req) => {
-  console.log("busranın id" , req)
   return axios.put(BASE_URL + "/put", req);
 };
 
