@@ -34,6 +34,7 @@ const UsersPage = () => {
   const getTodoList = () => {
     TodoService.getTodo().then((res) => {
       setList(res.data);
+      console.log("okanREs", res.data);
     });
   };
 
@@ -65,6 +66,50 @@ const UsersPage = () => {
       return "success";
     } else return "danger";
   };
+
+  const columns = [
+    {
+      title: "Id",
+      dataIndex: "userId",
+      key: "userId",
+    },
+    {
+      title: "Name",
+      dataIndex: "userName",
+      key: "userName",
+    },
+    {
+      title: "Department",
+      dataIndex: "department",
+      key: "department",
+    },
+    {
+      title: "Title",
+      dataIndex: "title",
+      key: "title",
+    },
+    {
+      title: "Action",
+      dataIndex: "aciton",
+      key: "aciton",
+      render: (_, record) => (
+        <>
+          <RiDeleteBin6Line
+            size={20}
+            className="cursor-pointer"
+            role="button"
+            onClick={() => deleteUserFunc(record.id)}
+          />
+          <FaEdit
+            size={20}
+            className="ms-2 cursor-pointer"
+            role="button"
+            onClick={() => updateUserFunc(record)}
+          />
+        </>
+      ),
+    },
+  ];
 
   return (
     <>
@@ -98,7 +143,12 @@ const UsersPage = () => {
                     </CardTitle>
                   </div>
                   <div>
-                    <Button className="mr-5" color="primary" size="sm">
+                    <Button
+                      className="mr-5"
+                      color="primary"
+                      size="sm"
+                      onClick={() => setisOpenModal(true)}
+                    >
                       Görev Ekle
                     </Button>
                   </div>
@@ -108,8 +158,8 @@ const UsersPage = () => {
                 className="p-0"
                 style={{ overflowY: "auto", maxHeight: "500px" }}
               >
-                <Table dataSource={list}>
-                  <Column title="User Id" dataIndex="userId" />
+                <Table dataSource={list} columns={columns}>
+                  {/* <Column title="User Id" dataIndex="userId" />
                   <Column title="Name" dataIndex="userName" />
                   <Column title="Department" dataIndex="department" />
                   <Column title="Title" dataIndex="title" />
@@ -131,15 +181,19 @@ const UsersPage = () => {
                         />
                       </>
                     )}
-                  />
+                  /> */}
                 </Table>
               </CardBody>
             </Card>
-            <UpdateModal
-              isOpen={isOpenModal}
-              setisOpen={setisOpenModal}
-              data={updateData}
-            />
+            {isOpenModal && (
+              <UpdateModal
+                isOpen={isOpenModal}
+                setisOpen={setisOpenModal}
+                data={updateData}
+                getTodoList={getTodoList}
+                setupdateData={setupdateData}
+              />
+            )}
           </Col>
         </Row>
       </div>

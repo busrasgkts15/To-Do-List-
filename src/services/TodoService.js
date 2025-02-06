@@ -12,28 +12,16 @@ const getUserById = (userId) => {
   return axios.get(`${BASE_URL}/${userId}`);
 };
 
-const TodoPost = (req) => {
-  console.log("buss" , req)
-  // return axios
-  //   .post(`${BASE_URL}`, {
-  //     userName: req.userName,
-  //     department: req.department,
-  //     title: req.title,
-  //   })
-  //   .then((response) => {
-  //     console.log("Gönderi eklendi:", response.data);
-  //   })
-  //   .catch((error) => {
-  //     console.error("Hata oluştu:", error);
-  //   });
+const TodoPost = (data) => {
+  return axios.post(`${BASE_URL}`, data);
 };
 
-const TodoDelete = (userId) => {
-  return axios.delete(`${BASE_URL}/${userId}`);
+const TodoDelete = (id) => {
+  return axios.delete(`${BASE_URL}/${id}`);
 };
 
 const TodoUpdate = (req) => {
-  return axios.put(BASE_URL + "/put", req);
+  return axios.put(`${BASE_URL}`, req);
 };
 
 let TodoService = {
